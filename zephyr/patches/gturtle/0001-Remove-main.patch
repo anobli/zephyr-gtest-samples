@@ -1,0 +1,34 @@
+From 3eccc219e8cb772fab61001f5f2e86137cd643e1 Mon Sep 17 00:00:00 2001
+From: Alexandre Bailon <abailon@baylibre.com>
+Date: Wed, 25 Mar 2026 12:19:54 +0100
+Subject: [PATCH] Remove main
+
+GoogleMock has it own main function and could be used to
+run all the tests automatically so we don't need it.
+And, we want to use it in Zephyr which doesn't set argc and argv.
+This causes a crash when GoogleTest try using argv which is NULL.
+
+Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+---
+ tests/test_turtle.cc | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/tests/test_turtle.cc b/tests/test_turtle.cc
+index f9f8270..0207ee2 100644
+--- a/tests/test_turtle.cc
++++ b/tests/test_turtle.cc
+@@ -15,11 +15,3 @@ TEST(PainterTest, CanDrawSomething)
+ 
+     EXPECT_TRUE(painter.DrawCircle(0, 0, 10));
+ } // #5
+-
+-int main(int argc, char **argv)
+-{
+-    // The following line must be executed to initialize Google Mock
+-    // (and Google Test) before running the tests.
+-    ::testing::InitGoogleMock(&argc, argv);
+-    return RUN_ALL_TESTS();
+-}
+-- 
+2.52.0
+

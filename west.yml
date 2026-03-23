@@ -1,0 +1,24 @@
+# Copyright (c) 2024 Alexandre Bailon
+# SPDX-License-Identifier: Apache-2.0
+
+manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+    - name: anobli
+      url-base: https://github.com/anobli
+    - name: edyang
+      url-base: https://github.com/Ed-Yang
+  projects:
+    - name: googletest
+      remote: anobli
+      repo-path: googletest
+      revision: abailon/zephyr/dev
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: main
+      import: true
+    - name: gturtle
+      remote: edyang
+      repo-path: gturtle
+      revision: 7e2435dea33f1bee4c865faaf22b4373d9cc7db7

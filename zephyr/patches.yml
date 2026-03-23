@@ -1,0 +1,10 @@
+patches:
+  - path: gturtle/0001-Remove-main.patch
+    sha256sum: c8ed4700a7f6f8aca65023488a2f097240cb5084a85d7910bbf46a510622c515
+    module: gturtle
+    author: Alexandre Bailon
+    email: abailon@baylibre.com
+    date: 2026-03-25
+    upstreamable: false
+    comments: |
+      Remove main from gturtle example.
