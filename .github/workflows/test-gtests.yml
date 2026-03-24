@@ -1,0 +1,53 @@
+name: Daily GoogleTest Integration Test
+
+on:
+  schedule:
+    # Run every day at 06:00 UTC
+    - cron: '0 6 * * *'
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test GoogleTest with Zephyr
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: zephyr-gtest-sample
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup Zephyr environment
+        uses: zephyrproject-rtos/action-zephyr-setup@v1
+        with:
+          app-path: zephyr-gtest-sample
+          toolchains: x86_64-zephyr-elf
+
+      - name: Apply patches
+        run: |
+          west patch apply
+
+      - name: Run Twister tests
+        working-directory: zephyr-gtest-sample
+        run: |
+          west twister \
+            -T tests/ \
+            -p qemu_x86 \
+            -p native_sim \
+            --inline-logs \
+            -v
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: twister-results
+          path: |
+            zephyr-gtest-sample/twister-out/
+          retention-days: 30
